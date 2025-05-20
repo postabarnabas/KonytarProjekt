@@ -16,6 +16,6 @@ namespace Posta_Barnabas_Projekt.Modellek
 
         [DataType(DataType.Date)]
         [Range(typeof(DateTime),"1900-01-01","2025. 05. 15.",ErrorMessage ="A születési dátum nem lehet 1900 előtt.")]
-        public DateTime BirthDate { get; set; }
+        public DateTime SzületésiDátum { get; set; }
     }
 }
