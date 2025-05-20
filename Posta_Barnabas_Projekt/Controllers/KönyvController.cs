@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Posta_Barnabas_Projekt.Modellek;
+//using Posta_Barnabas_Projekt.Modellek;
 using Posta_Barnabas_Projekt.Services;
 
 [ApiController]
@@ -32,7 +32,7 @@ public class KönyvController : ControllerBase
     public async Task<IActionResult> Post(Könyv könyv)
     {
         var létrehozott = await _könyvService.LétrehozásAsync(könyv);
-        return CreatedAtAction(nameof(Get), new { id = létrehozott.LeltáriSzám }, létrehozott);
+        return CreatedAtAction(nameof(Get), new { id = létrehozott.Id }, létrehozott);
     }
 
     [HttpPut("{id}")]

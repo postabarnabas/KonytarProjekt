@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Posta_Barnabas_Projekt.Modellek;
+//using Posta_Barnabas_Projekt.Modellek;
 namespace Posta_Barnabas_Projekt.Data
 {
     public class KönyvtárAdatbázis : DbContext
