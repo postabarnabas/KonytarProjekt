@@ -5,6 +5,9 @@ namespace Posta_Barnabas_Projekt.Modellek
 {
     public class Kölcsönzés
     {
+        [Key]
+        public int Id { get; set; }
+
         [Required]
         [ForeignKey("Olvasó")]
         public int OlvasóSzám {  get; set; }
