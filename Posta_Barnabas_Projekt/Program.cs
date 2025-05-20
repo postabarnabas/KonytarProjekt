@@ -1,4 +1,10 @@
+using Posta_Barnabas_Projekt.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<KönyvtárAdatbázis>(opciók => 
+opciók.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 
