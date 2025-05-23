@@ -1,0 +1,54 @@
+@page "/kolcsonzesek"
+@inject HttpClient Http
+
+<h3>Kölcsönzések listája</h3>
+
+@if (kolcsonzesek == null)
+{
+    <p>Betöltés...</p>
+}
+else if (kolcsonzesek.Count == 0)
+{
+    <p>Nincs elérhetõ kölcsönzés.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Olvasó ID</th>
+                <th>Könyv ID</th>
+                <th>Kölcsönzés ideje</th>
+                <th>Visszahozás határideje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var k in kolcsonzesek)
+            {
+                <tr>
+                    <td>@k.OlvasoId</td>
+                    <td>@k.KonyvId</td>
+                    <td>@k.KolcsonzesIdeje.ToShortDateString()</td>
+                    <td>@k.VisszahozasHatarideje.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<KolcsonzesDto> kolcsonzesek;
+
+    protected override async Task OnInitializedAsync()
+    {
+        kolcsonzesek = await Http.GetFromJsonAsync<List<KolcsonzesDto>>("https://localhost:5001/api/kolcsonzes");
+    }
+
+    public class KolcsonzesDto
+    {
+        public int OlvasoId { get; set; }
+        public int KonyvId { get; set; }
+        public DateTime KolcsonzesIdeje { get; set; }
+        public DateTime VisszahozasHatarideje { get; set; }
+    }
+}
