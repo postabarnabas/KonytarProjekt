@@ -1,0 +1,68 @@
+@page "/konyv-hozzaadas"
+@inject HttpClient Http
+
+<h3>Könyv hozzáadása</h3>
+
+<EditForm Model="@ujKonyv" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label>Cím:</label>
+        <InputText class="form-control" @bind-Value="ujKonyv.Cím" />
+        <ValidationMessage For="@(() => ujKonyv.Cím)" />
+    </div>
+
+    <div class="mb-3">
+        <label>Szerzõ:</label>
+        <InputText class="form-control" @bind-Value="ujKonyv.Szerzõ" />
+        <ValidationMessage For="@(() => ujKonyv.Szerzõ)" />
+    </div>
+
+    <div class="mb-3">
+        <label>Kiadó:</label>
+        <InputText class="form-control" @bind-Value="ujKonyv.Kiadó" />
+        <ValidationMessage For="@(() => ujKonyv.Kiadó)" />
+    </div>
+
+    <div class="mb-3">
+        <label>Kiadás éve:</label>
+        <InputNumber class="form-control" @bind-Value="ujKonyv.KiadásÉve" />
+        <ValidationMessage For="@(() => ujKonyv.KiadásÉve)" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Mentés</button>
+</EditForm>
+
+@code {
+    private Könyv ujKonyv = new();
+
+    private async Task HandleValidSubmit()
+    {
+        var válasz = await Http.PostAsJsonAsync("api/konyvek", ujKonyv);
+
+        if (válasz.IsSuccessStatusCode)
+        {
+            ujKonyv = new(); // mezõk ürítése
+        }
+        else
+        {
+            // hibakezelés (opcionális)
+        }
+    }
+
+    public class Könyv
+    {
+        [Required]
+        public string Cím { get; set; } = "";
+
+        [Required]
+        public string Szerzõ { get; set; } = "";
+
+        [Required]
+        public string Kiadó { get; set; } = "";
+
+        [Range(1000, 2100)]
+        public int KiadásÉve { get; set; }
+    }
+}
