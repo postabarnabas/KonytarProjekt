@@ -1,0 +1,56 @@
+@page "/olvaso-hozzaadas"
+@inject HttpClient Http
+
+<h3>Olvasó hozzáadása</h3>
+
+<EditForm Model="@ujOlvaso" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label>Név:</label>
+        <InputText class="form-control" @bind-Value="ujOlvaso.Név" />
+        <ValidationMessage For="@(() => ujOlvaso.Név)" />
+    </div>
+
+    <div class="mb-3">
+        <label>Email:</label>
+        <InputText class="form-control" @bind-Value="ujOlvaso.Email" />
+        <ValidationMessage For="@(() => ujOlvaso.Email)" />
+    </div>
+
+    <div class="mb-3">
+        <label>Telefonszám:</label>
+        <InputText class="form-control" @bind-Value="ujOlvaso.Telefonszám" />
+        <ValidationMessage For="@(() => ujOlvaso.Telefonszám)" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Mentés</button>
+</EditForm>
+
+@code {
+    private Olvasó ujOlvaso = new();
+
+    private async Task HandleValidSubmit()
+    {
+        var response = await Http.PostAsJsonAsync("api/olvasok", ujOlvaso);
+        if (response.IsSuccessStatusCode)
+        {
+            ujOlvaso = new();
+        }
+    }
+
+    public class Olvasó
+    {
+        [Required]
+        public string Név { get; set; } = "";
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = "";
+
+        [Required]
+        [Phone]
+        public string Telefonszám { get; set; } = "";
+    }
+}
