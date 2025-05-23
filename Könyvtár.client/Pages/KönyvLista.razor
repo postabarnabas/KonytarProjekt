@@ -1,0 +1,55 @@
+@page "/konyvek"
+@inject HttpClient Http
+
+<h3>Könyvek listája</h3>
+
+@if (konyvek == null)
+{
+    <p>Betöltés...</p>
+}
+else if (konyvek.Count == 0)
+{
+    <p>Nincs elérhetõ könyv.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Cím</th>
+                <th>Szerzõ</th>
+                <th>Kiadó</th>
+                <th>Kiadás éve</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var k in konyvek)
+            {
+                <tr>
+                    <td>@k.Cim</td>
+                    <td>@k.Szerzo</td>
+                    <td>@k.Kiado</td>
+                    <td>@k.KiadasEve</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<KonyvDto> konyvek;
+
+    protected override async Task OnInitializedAsync()
+    {
+        konyvek = await Http.GetFromJsonAsync<List<KonyvDto>>("https://localhost:5001/api/konyv");
+    }
+
+    public class KonyvDto
+    {
+        public int Id { get; set; }
+        public string Cim { get; set; }
+        public string Szerzo { get; set; }
+        public string Kiado { get; set; }
+        public int KiadasEve { get; set; }
+    }
+}
