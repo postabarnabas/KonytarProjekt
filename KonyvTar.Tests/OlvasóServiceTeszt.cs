@@ -1,11 +1,11 @@
 using Moq;
 using Xunit;
-using Posta_Barnabas_Projekt.Models;
+using Posta_Barnabas_Projekt.Modellek;
 using Posta_Barnabas_Projekt.Data;
 using Posta_Barnabas_Projekt.Services;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Linq;
 
 public class OlvasoServiceTests
