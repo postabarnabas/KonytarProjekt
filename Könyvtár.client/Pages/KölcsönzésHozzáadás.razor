@@ -1,0 +1,54 @@
+@page "/kolcsonzes-hozzaadas"
+@inject HttpClient Http
+
+<h3>Kölcsönzés hozzáadása</h3>
+
+<EditForm Model="@ujKolcsonzes" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label>Könyv ID:</label>
+        <InputNumber class="form-control" @bind-Value="ujKolcsonzes.KönyvId" />
+        <ValidationMessage For="@(() => ujKolcsonzes.KönyvId)" />
+    </div>
+
+    <div class="mb-3">
+        <label>Olvasó ID:</label>
+        <InputNumber class="form-control" @bind-Value="ujKolcsonzes.OlvasóId" />
+        <ValidationMessage For="@(() => ujKolcsonzes.OlvasóId)" />
+    </div>
+
+    <div class="mb-3">
+        <label>Kölcsönzés dátuma:</label>
+        <InputDate class="form-control" @bind-Value="ujKolcsonzes.KölcsönzésDátuma" />
+        <ValidationMessage For="@(() => ujKolcsonzes.KölcsönzésDátuma)" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Mentés</button>
+</EditForm>
+
+@code {
+    private Kolcsonzes ujKolcsonzes = new();
+
+    private async Task HandleValidSubmit()
+    {
+        var response = await Http.PostAsJsonAsync("api/kolcsonzesek", ujKolcsonzes);
+        if (response.IsSuccessStatusCode)
+        {
+            ujKolcsonzes = new();
+        }
+    }
+
+    public class Kolcsonzes
+    {
+        [Required]
+        public int KönyvId { get; set; }
+
+        [Required]
+        public int OlvasóId { get; set; }
+
+        [Required]
+        public DateTime KölcsönzésDátuma { get; set; } = DateTime.Today;
+    }
+}
