@@ -1,0 +1,52 @@
+@page "/olvasok"
+@inject HttpClient Http
+
+<h3>Olvasók listája</h3>
+
+@if (olvasok == null)
+{
+    <p>Betöltés...</p>
+}
+else if (olvasok.Count == 0)
+{
+    <p>Nincs elérhetõ olvasó.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Név</th>
+                <th>Lakcím</th>
+                <th>Születési dátum</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var o in olvasok)
+            {
+                <tr>
+                    <td>@o.Nev</td>
+                    <td>@o.Lakcim</td>
+                    <td>@o.SzuletesiDatum.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<OlvasoDto> olvasok;
+
+    protected override async Task OnInitializedAsync()
+    {
+        olvasok = await Http.GetFromJsonAsync<List<OlvasoDto>>("https://localhost:5001/api/olvaso");
+    }
+
+    public class OlvasoDto
+    {
+        public int Id { get; set; }
+        public string Nev { get; set; }
+        public string Lakcim { get; set; }
+        public DateTime SzuletesiDatum { get; set; }
+    }
+}
