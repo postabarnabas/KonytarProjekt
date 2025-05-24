@@ -25,16 +25,16 @@ namespace Konyvtar.Tests
         {
             // Arrange
             var context = GetInMemoryDbContext();
-            var service = new KonyvService(context);
-            var konyv = new Konyv { Cim = "Teszt könyv", Szerzo = "Tesztelõ", Kiado = "Teszt Kiadó", Kiadaseve = 2020 };
+            var service = new KönyvService(context);
+            var konyv = new Könyv { Cím = "Teszt könyv", Szerzõ = "Tesztelõ", Kiadó = "Teszt Kiadó", KiadásÉve = 2020 };
 
             // Act
-            await service.HozzaadasAsync(konyv);
-            var eredmeny = await service.ListazAsync();
+            await service.LétrehozásAsync(konyv);
+            var eredmeny = await service.ListázásAsync();
 
             // Assert
             Assert.Single(eredmeny);
-            Assert.Equal("Teszt könyv", eredmeny[0].Cim);
+            Assert.Equal("Teszt könyv", eredmeny[0].Cím);
         }
     }
 }

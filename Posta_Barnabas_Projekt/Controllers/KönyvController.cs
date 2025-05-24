@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-//using Posta_Barnabas_Projekt.Modellek;
+using Posta_Barnabas_Projekt.Modellek;
 using Posta_Barnabas_Projekt.Services;
 
 [ApiController]

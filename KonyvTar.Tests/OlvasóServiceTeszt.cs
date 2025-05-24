@@ -24,25 +24,25 @@ public class OlvasoServiceTests
     public async Task HozzaadasAsync_AddsOlvaso()
     {
         var db = await GetInMemoryDb();
-        var service = new OlvasoService(db);
-        var olvaso = new Olvaso { Nev = "Teszt Elek", Cim = "Debrecen", SzuletesiDatum = new DateTime(1990, 1, 1) };
+        var service = new OlvasóService(db);
+        var olvaso = new Olvasó { Név = "Teszt Elek", Lakcím = "Debrecen", SzületésiDátum = new DateTime(1990, 1, 1) };
 
-        await service.HozzaadasAsync(olvaso);
-        var result = await db.Olvasok.FirstOrDefaultAsync();
+        await service.LétrehozásAsync(olvaso);
+        var result = await db.Olvasók.FirstOrDefaultAsync();
 
         Assert.NotNull(result);
-        Assert.Equal("Teszt Elek", result.Nev);
+        Assert.Equal("Teszt Elek", result.Név);
     }
 
     [Fact]
     public async Task ListazAsync_ReturnsOlvasok()
     {
         var db = await GetInMemoryDb();
-        db.Olvasok.Add(new Olvaso { Nev = "Olvasó 1", Cim = "Bp", SzuletesiDatum = new DateTime(1980, 1, 1) });
+        db.Olvasók.Add(new Olvasó { Név = "Teszt ELek", Lakcím = "Debrecen", SzületésiDátum = new DateTime(1990, 1, 1) });
         await db.SaveChangesAsync();
 
-        var service = new OlvasoService(db);
-        var result = await service.ListazAsync();
+        var service = new OlvasóService(db);
+        var result = await service.ListázásAsync();
 
         Assert.Single(result);
     }
@@ -51,13 +51,13 @@ public class OlvasoServiceTests
     public async Task TorlesAsync_DeletesOlvaso()
     {
         var db = await GetInMemoryDb();
-        var olvaso = new Olvaso { Nev = "Olvasó 1", Cim = "Bp", SzuletesiDatum = new DateTime(1980, 1, 1) };
-        db.Olvasok.Add(olvaso);
+        var olvaso = new Olvasó { Név = "Olvasó 1", Lakcím = "Bp", SzületésiDátum = new DateTime(1980, 1, 1) };
+        db.Olvasók.Add(olvaso);
         await db.SaveChangesAsync();
 
-        var service = new OlvasoService(db);
-        await service.TorlesAsync(olvaso.Id);
-        var result = await db.Olvasok.FindAsync(olvaso.Id);
+        var service = new OlvasóService(db);
+        await service.TörlésAsync(olvaso.Id);
+        var result = await db.Olvasók.FindAsync(olvaso.Id);
 
         Assert.Null(result);
     }

@@ -1,4 +1,4 @@
-﻿//using Posta_Barnabas_Projekt.Modellek;
+﻿using Posta_Barnabas_Projekt.Modellek;
 
 public interface IOlvasóService
 {

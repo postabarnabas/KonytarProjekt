@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Posta_Barnabas_Projekt.Data;
-//using Posta_Barnabas_Projekt.Modellek;
+using Posta_Barnabas_Projekt.Modellek;
 
 public class KölcsönzésService : IKölcsönzésService
 {
@@ -14,8 +14,8 @@ public class KölcsönzésService : IKölcsönzésService
     public async Task<List<Kölcsönzés>> ListázásAsync()
     {
         return await _context.Kölcsönzések
-            .Include(k => k.Id)
-            .Include(k => k.OlvasóId)
+            .Include(k => k.Könyv==Könyv)
+            .Include(k => k.Olvasó)
             .ToListAsync();
     }
 
@@ -30,7 +30,7 @@ public class KölcsönzésService : IKölcsönzésService
     {
         return await _context.Kölcsönzések
             .Where(k => k.OlvasóId == olvasóId)
-            .Include(k => k.KönyvId)
+            .Include(k => k.Könyv)
             .ToListAsync();
     }
 }

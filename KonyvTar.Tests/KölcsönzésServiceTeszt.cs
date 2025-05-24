@@ -24,43 +24,44 @@ public class KolcsonzesServiceTests
     public async Task KolcsonzesAsync_AddsKolcsonzes()
     {
         var db = await GetInMemoryDb();
-        db.Konyvek.Add(new Konyv { Cim = "Könyv 1", Szerzo = "Szerzõ", Kiado = "Kiado", Kiadaseve = 2000 });
-        db.Olvasok.Add(new Olvaso { Nev = "Olvasó 1", Cim = "Bp", SzuletesiDatum = new DateTime(1990, 1, 1) });
+        db.Könyvek.Add(new Könyv { Cím = "Könyv 1", Szerzõ = "Szerzõ", Kiadó = "Kiado", KiadásÉve = 2000 });
+        db.Olvasók.Add(new Olvasó { Név = "Olvasó 1", Lakcím = "Bp", SzületésiDátum = new DateTime(1990, 1, 1) });
         await db.SaveChangesAsync();
 
-        var konyvId = db.Konyvek.First().Id;
-        var olvasoId = db.Olvasok.First().Id;
+        var konyvId = db.Könyvek.First().Id;
+        var olvasoId = db.Olvasók.First().Id;
 
-        var service = new KolcsonzesService(db);
-        await service.KolcsonzesAsync(new Kolcsonzes
+        var service = new KölcsönzésService(db);
+        await service.LétrehozásAsync(new Kölcsönzés
         {
-            KonyvId = konyvId,
-            OlvasoId = olvasoId,
-            KolcsonzesDatuma = DateTime.Now.AddDays(1),
-            VisszahozasHatarideje = DateTime.Now.AddDays(10)
+            KönyvId = konyvId,
+            OlvasóId = olvasoId,
+            KölcsönzésIdeje = DateTime.Now.AddDays(1),
+            VisszahozásiHatáridõ = DateTime.Now.AddDays(10)
         });
 
-        var result = await db.Kolcsonzesek.FirstOrDefaultAsync();
+        var result = await db.Kölcsönzések.FirstOrDefaultAsync();
         Assert.NotNull(result);
-        Assert.Equal(konyvId, result.KonyvId);
-        Assert.Equal(olvasoId, result.OlvasoId);
+        Assert.Equal(konyvId, result.KönyvId);
+        Assert.Equal(olvasoId, result.OlvasóId);
     }
 
     [Fact]
     public async Task Lista_ReturnsKolcsonzesek()
     {
         var db = await GetInMemoryDb();
-        db.Kolcsonzesek.Add(new Kolcsonzes
+        db.Kölcsönzések.Add(new Kölcsönzés
         {
-            KonyvId = 1,
-            OlvasoId = 1,
-            KolcsonzesDatuma = DateTime.Now.AddDays(1),
-            VisszahozasHatarideje = DateTime.Now.AddDays(5)
+            KönyvId = 1,
+            OlvasóId = 1,
+            KölcsönzésIdeje = DateTime.Now.AddDays(1),
+            VisszahozásiHatáridõ = DateTime.Now.AddDays(5)
         });
         await db.SaveChangesAsync();
 
-        var service = new KolcsonzesService(db);
-        var result = await service.Lista();
+        var service = new KölcsönzésService(db);
+        var result = await service.ListázásAsync();
+
 
         Assert.Single(result);
     }
