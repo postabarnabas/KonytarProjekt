@@ -14,7 +14,7 @@ public class KölcsönzésService : IKölcsönzésService
     public async Task<List<Kölcsönzés>> ListázásAsync()
     {
         return await _context.Kölcsönzések
-            .Include(k => k.Könyv==Könyv)
+            .Include(k => k.Könyv)
             .Include(k => k.Olvasó)
             .ToListAsync();
     }
