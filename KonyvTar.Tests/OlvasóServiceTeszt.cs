@@ -28,7 +28,7 @@ public class OlvasoServiceTests
         var olvaso = new Olvasó { Név = "Teszt Elek", Lakcím = "Debrecen", SzületésiDátum = new DateTime(1990, 1, 1) };
 
         await service.LétrehozásAsync(olvaso);
-        var result = await db.Olvasók.FirstOrDefaultAsync();
+        var result = await db.Olvasók.FindAsync(olvaso.Id);
 
         Assert.NotNull(result);
         Assert.Equal("Teszt Elek", result.Név);
