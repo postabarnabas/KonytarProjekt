@@ -50,10 +50,18 @@ public class KolcsonzesServiceTests
     public async Task Lista_ReturnsKolcsonzesek()
     {
         var db = await GetInMemoryDb();
+
+        var konyv = new Könyv { Cím = "Cím", Szerzõ = "Szerzõ", Kiadó = "Kiadó", KiadásÉve = 2000 };
+        var olvaso = new Olvasó { Név = "Olvasó 1", Lakcím = "Bp", SzületésiDátum = new DateTime(1990, 1, 1) };
+
+        db.Könyvek.Add(konyv);
+        db.Olvasók.Add(olvaso);
+        await db.SaveChangesAsync();
+
         db.Kölcsönzések.Add(new Kölcsönzés
         {
-            KönyvId = 1,
-            OlvasóId = 1,
+            KönyvId = konyv.Id,
+            OlvasóId = olvaso.Id,
             KölcsönzésIdeje = DateTime.Now.AddDays(1),
             VisszahozásiHatáridõ = DateTime.Now.AddDays(5)
         });
@@ -61,7 +69,6 @@ public class KolcsonzesServiceTests
 
         var service = new KölcsönzésService(db);
         var result = await service.ListázásAsync();
-
 
         Assert.Single(result);
     }
