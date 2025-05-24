@@ -1,5 +1,6 @@
 @page "/konyv-hozzaadas"
 @inject HttpClient Http
+@inject NavigationManager NavigationManager
 
 <h3>Könyv hozzáadása</h3>
 
@@ -44,6 +45,7 @@
         if (válasz.IsSuccessStatusCode)
         {
             ujKonyv = new(); 
+            NavigationManager.NavigateTo("/konyvek", forceLoad: true);
         }
         else
         {
